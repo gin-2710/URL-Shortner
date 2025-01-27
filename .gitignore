@@ -1,3 +1,4 @@
 .env
 .husky
 node_modules
+mongo-data
