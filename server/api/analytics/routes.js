@@ -1,7 +1,7 @@
 import express from "express";
-import analyticsAliasHandler from "./alias-handler";
-import analyticsOverallHandler from "./overall-handler";
-import analyticsTopicHandler from "./topic-handler";
+import analyticsAliasHandler from "./alias-handler.js";
+import analyticsOverallHandler from "./overall-handler.js";
+import analyticsTopicHandler from "./topic-handler.js";
 
 const analyticsRoutes = express.Router();
 
