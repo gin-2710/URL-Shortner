@@ -1,9 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import Event from "./models/Event.js";
-import Url from "./models/Url.js";
-import User from "./models/User.js";
+import { Url, User, Event } from "./models/index.js";
 
 const app = express();
 
