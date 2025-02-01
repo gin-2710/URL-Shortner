@@ -1,7 +1,5 @@
 import express from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
-import { Url, User, Event } from "./models/index.js";
 import apiRoutes from "./api/routes.js";
 import connectDB from "./db/db.js";
 
