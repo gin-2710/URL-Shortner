@@ -1,17 +1,20 @@
 import express from "express";
+import analyticsAliasHandler from "./alias-handler";
+import analyticsOverallHandler from "./overall-handler";
+import analyticsTopicHandler from "./topic-handler";
 
 const analyticsRoutes = express.Router();
 
 analyticsRoutes.get("/:alias", (req, res) => {
-    res.send("Analytics alias route");
+  analyticsAliasHandler(req, res);
 });
 
 analyticsRoutes.get("/topic/:topic", (req, res) => {
-    res.send("Analytics topic route");
+  analyticsTopicHandler(req, res);
 });
 
 analyticsRoutes.get("/overall", (req, res) => {
-    res.send("Analytics overall route");
+  analyticsOverallHandler(req, res);
 });
 
 export default analyticsRoutes;
