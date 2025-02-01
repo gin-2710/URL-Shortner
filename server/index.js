@@ -3,11 +3,13 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { Url, User, Event } from "./models/index.js";
 import apiRoutes from "./api/routes.js";
-import db from "./db/db.js";
+import connectDB from "./db/db.js";
 
 const app = express();
 dotenv.config();
 const PORT = dotenv.PORT || 3000;
+
+await connectDB();
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -1,5 +1,4 @@
-import { MongoClient } from "mongodb";
-import http from "http";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -11,21 +10,17 @@ const DATA_DB = process.env.MONGO_INITDB_ROOT_DB || "url_shortener_db";
 
 const URI = `mongodb://${DATA_USERNAME}:${DATA_PASSWORD}@mongodb:${DATA_PORT}`;
 console.log(URI);
-const client = new MongoClient(URI);
-
-async function connectToDatabase() {
+const connectDB = async () => {
   try {
-    await client.connect();
-    return client.db(DATA_DB);
+    await mongoose.connect(URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("✅ MongoDB Connected");
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error.message);
-    process.exit(1);
-  } finally {
-    console.log("Attempting to close MongoDB connection");
-    await client.close();
+    console.error("❌ MongoDB Connection Error:", error);
+    process.exit(1); // Stop the app if DB fails
   }
-}
+};
 
-const db = await connectToDatabase();
-
-export default db;
+export default connectDB;
