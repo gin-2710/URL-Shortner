@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { Url, User, Event } from "./models/index.js";
 import apiRoutes from "./api/routes.js";
+import db from "./db/db.js";
 
 const app = express();
 dotenv.config();
@@ -17,4 +18,3 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api", apiRoutes);
-

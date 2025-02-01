@@ -46,6 +46,8 @@ services:
       - ./server:/usr/src/app
     depends_on:
       - mongodb
+    networks:
+      - mongodb_network
 
 networks:
   mongodb_network:
