@@ -7,7 +7,6 @@ services:
     hostname: mongodb
     volumes:
       - ./mongo-data:/data/db/
-      # - ./mongo-log:/var/log/mongodb/
     env_file:
       - .env
     environment:
@@ -47,16 +46,6 @@ services:
       - ./server:/usr/src/app
     depends_on:
       - mongodb
-    # env_file:
-    #   - .env
-
-# volumes:
-# mongodb-data:
-#   driver: local
-#   name: mongo-data
-# mongodb-log:
-#   driver: local
-#   name: mongo-log
 
 networks:
   mongodb_network:

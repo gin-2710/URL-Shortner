@@ -1,0 +1,10 @@
+//there will be two routes here: 1. /analytics 2. /shortener. Redirect to their routes.js js filed accordingly
+import express from "express";
+import analyticsRoutes from "./analytics/routes.js";
+import shortenRoutes from "./shorten/routes.js";
+
+const apiRouter = express.Router();
+apiRouter.use("/analytics", analyticsRoutes);
+apiRouter.use("/shorten", shortenRoutes);
+
+export default apiRouter;
