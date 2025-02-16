@@ -11,11 +11,15 @@
   },
   "dependencies": {
     "@heroui/react": "^2.6.14",
+    "@heroui/system": "^2.4.7",
+    "@heroui/theme": "^2.4.6",
     "@tailwindcss/vite": "^4.0.3",
+    "axios": "^1.7.9",
     "framer-motion": "^12.0.6",
     "heroui-cli": "^1.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.1.5",
     "tailwindcss": "^4.0.3"
   },
   "devDependencies": {
