@@ -6,7 +6,7 @@ const UrlSchema = new mongoose.Schema({
   topic: { type: String, required: false },
   shortUrl: { type: String, unique: true, required: true },
   createdAt: { type: Date, default: Date.now },
-  userId: { type: mongoose.Schema.Types.UUID, ref: "User", required: false },
+  userId: { type: String, ref: "User", required: false },
 });
 
 const Url = mongoose.model("Url", UrlSchema);
