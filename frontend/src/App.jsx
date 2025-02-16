@@ -1,8 +1,9 @@
 import "./App.css";
 import CustomNavbar from "./componenets/CustomNavbar.jsx";
-import Home from "./componenets/DefaultPage.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import EntryPage from "./pages/entry/entryPages.jsx";
+import CreateUrl from "./pages/CreateUrl/createUrl.jsx";
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<EntryPage />} />
+            <Route path="/home" element={<CreateUrl />} />
           </Routes>
         </Router>
       </AuthProvider>

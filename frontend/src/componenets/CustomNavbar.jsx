@@ -1,11 +1,12 @@
+import React from "react";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
   Link,
-  Button,
 } from "@heroui/react";
+import { useAuth } from "../context/AuthContext";
 
 export const AcmeLogo = () => {
   return (
@@ -21,27 +22,37 @@ export const AcmeLogo = () => {
 };
 
 export default function CustomNavbar() {
+  const { user, logout } = useAuth(); // Get user & logout function from AuthContext
+
   return (
     <Navbar>
       <NavbarBrand>
         <AcmeLogo />
         <p className="font-bold text-inherit">ACME</p>
       </NavbarBrand>
+
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem isActive>
-          <Link color="foreground" href="#">
-            URL Shorterner
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link aria-current="page" href="#">
-            Analytics
-          </Link>
-        </NavbarItem>
+        {user ? ( // Show links only if user is logged in
+          <>
+            <NavbarItem>
+              <Link href="/home">URL Shortener</Link>
+            </NavbarItem>
+            <NavbarItem>
+              <Link href="/dashboard">Analytics</Link>
+            </NavbarItem>
+          </>
+        ) : null}
       </NavbarContent>
+
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Logout</Link>
+          {user ? (
+            <button onClick={logout} className="text-red-500 hover:underline">
+              Logout
+            </button>
+          ) : (
+            <Link href="/login">Login</Link>
+          )}
         </NavbarItem>
       </NavbarContent>
     </Navbar>
