@@ -7,6 +7,8 @@ import dotenv from "dotenv";
 import apiRoutes from "./api/routes.js";
 import connectDB from "./db/db.js";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import swaggerJson from "./swagger.json" with { type: 'json' };
 
 const app = express();
 dotenv.config();
@@ -33,10 +35,15 @@ app.use(passport.session());
 app.use("/auth", authRoutes);
 
 await connectDB();
+app.use(express.json());
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`); 
 });
+
+await connectDB();
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJson));
 
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok", message: "Server is running" });
