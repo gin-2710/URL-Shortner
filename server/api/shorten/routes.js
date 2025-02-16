@@ -5,8 +5,8 @@ import shortenAliasHandler from "./alias-handler.js";
 const shortenRoutes = express.Router();
 
 shortenRoutes.post("", (req, res) => {
-  console.log("Url:", req.url);
-  console.log("Body:", req.Body);
+  console.log("User", req.user);
+  console.log("Body:", req.body);
   shortenHandler(req, res);
 });
 

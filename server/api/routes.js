@@ -6,5 +6,6 @@ import shortenRoutes from "./shorten/routes.js";
 const apiRouter = express.Router();
 apiRouter.use("/analytics", analyticsRoutes);
 apiRouter.use("/shorten", shortenRoutes);
+apiRouter.get("/test", (req, res) => res.send("Test route"));
 
 export default apiRouter;
