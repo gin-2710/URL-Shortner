@@ -21,6 +21,10 @@ export const AcmeLogo = () => {
   );
 };
 
+const handleLogin = () => {
+  window.location.href = "http://localhost:3000/auth/google"; // Redirect to backend for Google Auth
+};
+
 export default function CustomNavbar() {
   const { user, logout } = useAuth(); // Get user & logout function from AuthContext
 
@@ -51,7 +55,12 @@ export default function CustomNavbar() {
               Logout
             </button>
           ) : (
-            <Link href="/login">Login</Link>
+            <button
+              onClick={handleLogin}
+              className="text-red-500 hover:underline"
+            >
+              Login
+            </button>
           )}
         </NavbarItem>
       </NavbarContent>
