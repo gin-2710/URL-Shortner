@@ -34,7 +34,7 @@ const shortenHandler = (req, res) => {
     res.status(500).json({ message: "Error saving Short URL" });
   }
 
-  res.json({
+  res.status(201).json({
     shortUrl: url.shortUrl,
     createdAt: url.createdAt,
   });
