@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // <<-- YOU MISSED useEffect here!
 import { useAuth } from "../../context/AuthContext.jsx";
 import CustomNavbar from "../../componenets/CustomNavbar.jsx";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,35 @@ const CreateUrl = () => {
   const [customAlias, setCustomAlias] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [error, setError] = useState("");
+  const [userUrls, setUserUrls] = useState([]);
+
+  const fetchUserUrls = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/user/urls", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch URLs");
+      }
+
+      setUserUrls(data); // Should be an array of URLs
+    } catch (err) {
+      console.error("Failed to fetch user URLs:", err.message);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchUserUrls();
+    }
+  }, [user]);
 
   if (!user) {
     navigate("/");
@@ -42,6 +71,9 @@ const CreateUrl = () => {
       }
 
       setShortUrl(data.shortUrl);
+      setLongUrl(""); // Clear input
+      setCustomAlias(""); // Clear input
+      await fetchUserUrls(); // Refresh list after creating new URL
     } catch (err) {
       setError(err.message);
     }
@@ -107,6 +139,49 @@ const CreateUrl = () => {
         )}
 
         {error && <p className="mt-4 text-red-500">{error}</p>}
+
+        {/* ✅ Show user's URLs */}
+        {userUrls.length > 0 && (
+          <div className="mt-10 w-full max-w-2xl">
+            <h2 className="text-2xl font-semibold mb-4">Your URLs</h2>
+
+            {/* Top 5 URLs */}
+            <div className="space-y-2 mb-6">
+              {userUrls.slice(0, 5).map((url, index) => (
+                <div key={index} className="bg-white p-4 rounded shadow">
+                  <a
+                    href={url.shortUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500"
+                  >
+                    {url.shortUrl}
+                  </a>
+                  <p className="text-sm text-gray-500">{url.longUrl}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Rest of the URLs Scrollable */}
+            {userUrls.length > 5 && (
+              <div className="max-h-64 overflow-y-auto space-y-2">
+                {userUrls.slice(5).map((url, index) => (
+                  <div key={index} className="bg-white p-4 rounded shadow">
+                    <a
+                      href={url.shortUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500"
+                    >
+                      {url.shortUrl}
+                    </a>
+                    <p className="text-sm text-gray-500">{url.longUrl}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
