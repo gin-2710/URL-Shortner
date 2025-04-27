@@ -1,7 +1,6 @@
 import Url from "../../models/Url.js";
 import Event from "../../models/Event.js";
 import { v4 as uuid } from "uuid";
-import axios from "axios";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -14,29 +13,30 @@ function getDeviceType(userAgent) {
   return isMobile ? "mobile" : "desktop";
 }
 
-async function logEvent(userId) {
-  const resIp = await axios.get(
-    `https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.IP_ADDRESS_GEO_LOC_API_KEY}`
-  );
-  console.log("Response IP: ", resIp);
-
+async function logEvent(userID, userIP, userOS) {
   const event = new Event({
     id: uuid(),
-    ip: resIp.data.ipAddress,
-    deviceType: "mobile", //get device type,
-
+    ip: userIP,
+    deviceType: getDeviceType,
     shortUrl: `${process.env.SHORT_URL_BASE}` + req.params.alias,
-    //    operatingSystem: get operating system
-    userId: userId,
+    operatingSystem: userOS,
+    userId: userID,
     eventTs: new Date().toISOString(),
   });
+
+  try {
+    event.save();
+  } catch {
+    res.status(500).json({ message: "Error saving event" });
+  }
 }
 
 const shortenAliasHandler = (req, res) => {
-  Url.findOne({ customAlias: req.params.alias }, (err, url) => {
+  Url.findOne({ customAlias: req.params.alias }, async (err, url) => {
     if (err) {
-      res.status(404).json({ message: "URL not found" });
+      res.status(404).json({ message: `Alias ${req.params.alias} not found` });
     } else {
+      await logEvent(req.userId, req.userIP, req.userOS);
       res.redirect(url.longUrl);
     }
   });
