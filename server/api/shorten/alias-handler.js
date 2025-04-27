@@ -13,12 +13,12 @@ function getDeviceType(userAgent) {
   return isMobile ? "mobile" : "desktop";
 }
 
-async function logEvent(userID, userIP, userOS) {
+async function logEvent(userID, userIP, userOS, alias) {
   const event = new Event({
     id: uuid(),
     ip: userIP,
     deviceType: getDeviceType,
-    shortUrl: `${process.env.SHORT_URL_BASE}` + req.params.alias,
+    alias: alias,
     operatingSystem: userOS,
     userId: userID,
     eventTs: new Date().toISOString(),
@@ -32,11 +32,11 @@ async function logEvent(userID, userIP, userOS) {
 }
 
 const shortenAliasHandler = (req, res) => {
-  Url.findOne({ customAlias: req.params.alias }, async (err, url) => {
+  Url.findOne({ alias: req.params.alias }, async (err, url) => {
     if (err) {
       res.status(404).json({ message: `Alias ${req.params.alias} not found` });
     } else {
-      await logEvent(req.userId, req.userIP, req.userOS);
+      await logEvent(req.userId, req.userIP, req.userOS, req.params.alias);
       res.redirect(url.longUrl);
     }
   });

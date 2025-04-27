@@ -16,12 +16,11 @@ const shortenHandler = (req, res) => {
 
   const url = new Url({
     longUrl: longUrl,
-    customAlias: customAlias,
+    isCustomAlias: customAlias ? true : false,
     topic: topic,
-    shortUrl: customAlias
-      ? process.env.SHORT_URL_BASE + customAlias
-      : process.env.SHORT_URL_BASE +
-        nanoid(
+    alias: customAlias
+      ? customAlias
+      : nanoid(
           6,
           "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         ),
@@ -36,7 +35,7 @@ const shortenHandler = (req, res) => {
   }
 
   res.status(201).json({
-    shortUrl: url.shortUrl,
+    shortUrl: process.env.SHORT_URL_BASE + url.alias,
     createdAt: url.createdAt,
   });
 };
