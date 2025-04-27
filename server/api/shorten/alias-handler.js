@@ -27,7 +27,7 @@ async function logEvent(userID, userIP, userOS) {
   try {
     event.save();
   } catch {
-    res.status(500).json({ message: "Error saving Short URL" });
+    res.status(500).json({ message: "Error saving event" });
   }
 }
 
