@@ -16,8 +16,8 @@ const app = express();
 dotenv.config();
 
 const limiter = rateLimit({
-  windowMs: 15 * 1000, // 15 minutes
-  max: 2, // Limit each IP to 100 requests per windowMs
+  windowMs: 1 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 100 requests per windowMs
   message: 'Too many requests from this IP, please try again later.'
 });
 
@@ -49,7 +49,7 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok", message: "Server is running" });
 });
 
-app.use("/api", isAuthenticated, apiRoutes, limiter);
+app.use("/api", limiter, isAuthenticated, apiRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
