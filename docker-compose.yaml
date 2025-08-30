@@ -16,7 +16,6 @@ services:
       - "27017:27017"
     networks:
       - mongodb_network
-
   mongo-express:
     image: mongo-express:latest
     container_name: mongo-express
@@ -47,6 +46,8 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - mongodb
+      - mongo-express
+      - redis
     networks:
       - mongodb_network
   redis:
@@ -57,6 +58,20 @@ services:
     restart: unless-stopped
     volumes:
       - redis-data:/data
+    depends_on:
+      - mongodb
+      - mongo-express
+    networks:
+      - mongodb_network
+  redis-insight:
+    image: redis/redisinsight:latest
+    restart: always
+    ports:
+      - "5540:5540"
+    volumes:
+      - redisinsight-data:/data
+    networks:
+      - mongodb_network
 
 networks:
   mongodb_network:
@@ -65,3 +80,4 @@ networks:
 
 volumes:
   redis-data:
+  redisinsight-data:

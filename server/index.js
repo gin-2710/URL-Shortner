@@ -12,6 +12,7 @@ import isAuthenticated from "./middleware/authenticateRequest.js";
 import authRoutes from "./middleware/auth.js";
 import rateLimit from 'express-rate-limit'
 import mockUser from "./middleware/mockUser.js";
+import shortenAliasHandler from "./api/shorten/alias-handler.js"
 
 const app = express();
 dotenv.config();
@@ -58,6 +59,8 @@ if (disableAuth) {
 } else {
   app.use("/api", limiter, isAuthenticated, apiRoutes);
 }
+
+app.get("/:alias", (req, res) => { mockUser, shortenAliasHandler(req, res)});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
