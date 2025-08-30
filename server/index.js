@@ -11,6 +11,7 @@ import swaggerJson from "./swagger.json" with { type: 'json' };
 import isAuthenticated from "./middleware/authenticateRequest.js";
 import authRoutes from "./middleware/auth.js";
 import rateLimit from 'express-rate-limit'
+import mockUser from "./middleware/mockUser.js";
 
 const app = express();
 dotenv.config();
@@ -49,7 +50,14 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok", message: "Server is running" });
 });
 
-app.use("/api", limiter, isAuthenticated, apiRoutes);
+const disableAuth = process.env.DISABLE_AUTH === 'true';
+
+if (disableAuth) {
+  console.log("⚠️ Auth is DISABLED. Injecting mock user...");
+  app.use("/api", limiter, mockUser, apiRoutes);
+} else {
+  app.use("/api", limiter, isAuthenticated, apiRoutes);
+}
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
