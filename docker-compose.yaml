@@ -44,12 +44,24 @@ services:
       - "3000:3000"
     volumes:
       - ./server:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       - mongodb
     networks:
       - mongodb_network
+  redis:
+    image: redis:alpine3.22
+    container_name: redis-server
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
 
 networks:
   mongodb_network:
     driver: bridge
     name: mongo-network
+
+volumes:
+  redis-data:

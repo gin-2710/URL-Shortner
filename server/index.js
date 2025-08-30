@@ -53,7 +53,7 @@ app.get("/health", (req, res) => {
 const disableAuth = process.env.DISABLE_AUTH === 'true';
 
 if (disableAuth) {
-  console.log("⚠️ Auth is DISABLED. Injecting mock user...");
+  console.log("Auth is DISABLED. Injecting mock user...");
   app.use("/api", limiter, mockUser, apiRoutes);
 } else {
   app.use("/api", limiter, isAuthenticated, apiRoutes);
@@ -63,5 +63,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`); 
 });
-
-console.log("heyheyehey")
