@@ -25,7 +25,7 @@ async function logEvent(userID, userIP, userOS, alias) {
   });
 
   try {
-    event.save();
+    await event.save();
   } catch {
     res.status(500).json({ message: "Error saving event" });
   }
