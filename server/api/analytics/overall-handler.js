@@ -1,8 +1,13 @@
+import Url from "../../models/Url.js";
+import Event from "../../models/Event.js";
+
 const analyticsOverallHandler = async (req, res) => {
+  console.log(`Entered overall handler..`);
   const userId = req.user?.id;
 
   try {
     const aliasList = await Url.find({ userId }).distinct("alias");
+    console.log(aliasList);
 
     // 1. Total URLs
     const totalUrls = aliasList.length;

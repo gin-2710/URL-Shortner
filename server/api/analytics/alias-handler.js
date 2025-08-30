@@ -1,3 +1,5 @@
+import Event from "../../models/Event.js";
+
 const analyticsAliasHandler = async (req, res) => {
   try {
     const alias = req.params.alias;

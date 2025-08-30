@@ -14,6 +14,7 @@ analyticsRoutes.get("/topic/:topic", (req, res) => {
 });
 
 analyticsRoutes.get("/overall", (req, res) => {
+  console.log(`Entered reoutes for overall handler..`);
   analyticsOverallHandler(req, res);
 });
 

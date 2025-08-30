@@ -18,7 +18,7 @@ async function logEvent(userID, userIP, userOS, alias) {
   const event = new Event({
     id: uuid(),
     ip: userIP,
-    deviceType: getDeviceType,
+    deviceType: getDeviceType(),
     alias: alias,
     operatingSystem: userOS,
     userId: userID,
